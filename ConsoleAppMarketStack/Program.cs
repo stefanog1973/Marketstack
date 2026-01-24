@@ -8,10 +8,10 @@ class Program
         Console.WriteLine("Hello, World!");
 
         var test = new MarketstackServiceTests();
-        test.GetExchanges_ReturnsExchanges().GetAwaiter().GetResult();
-        test.GetExchangeStocks_ReturnsStocks().GetAwaiter().GetResult();
+        //test.GetExchanges_ReturnsExchanges().GetAwaiter().GetResult();
+        //test.GetExchangeStocks_ReturnsStocks().GetAwaiter().GetResult();
         test.GetStockEodBars_ReturnsBars().GetAwaiter().GetResult();
-        test.GetStockEodBars_Parallel_ReturnsBars().GetAwaiter().GetResult();
+        //test.GetStockEodBars_Parallel_ReturnsBars().GetAwaiter().GetResult();
     }
 }
 
