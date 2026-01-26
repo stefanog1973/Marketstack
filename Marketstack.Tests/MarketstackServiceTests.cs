@@ -90,7 +90,8 @@ namespace Marketstack.Tests
 
 
                     // https://www.google.com/search?q=c%23+scrivere+numeri+float+in+file+csv&rlz=1C1UEAD_enIT1160IT1160&oq=c%23+scrivere+numeri+float+in+file+csv&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIGCAEQRRg60gEIOTU4MGowajeoAgCwAgA&sourceid=chrome&ie=UTF-8
-                    var newLine = string.Format("{0},{1},{2},{3},{4}", mystockBar.Close.ToString().Replace(",", "."),
+                    var newLine = string.Format("{0},{1},{2},{3},{4},{5}", mystockBar.Date.ToString("yyyy-MM-dd"),
+                                                                       mystockBar.Close.ToString().Replace(",", "."),
                                                                        mystockBar.High.ToString().Replace(",", "."), 
                                                                        mystockBar.Low.ToString().Replace(",", "."), 
                                                                        mystockBar.Open.ToString().Replace(",", "."), 

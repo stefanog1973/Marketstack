@@ -25,8 +25,8 @@ class Program
         int fromDay = DateTime.Now.Day;
         if (args.Length == 4)
         { 
-            fromYear = Int32.Parse(args[0]);
-            fromMonth = Int32.Parse(args[1]);
+            fromYear = Int32.Parse(args[1]);
+            fromMonth = Int32.Parse(args[2]);
             fromDay = Int32.Parse(args[3]);
         }
 
