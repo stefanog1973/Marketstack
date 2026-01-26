@@ -7,9 +7,13 @@ using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Marketstack.Tests
 {
@@ -60,19 +64,45 @@ namespace Marketstack.Tests
         public async Task GetStockEodBars_ReturnsBars()
         {
             var appleSymbol = "AAPL";
-            var fromDate = new DateTime(2026, 1, 23);
+            var fromDate = new DateTime(2026, 1, 22);
             var toDate = DateTime.Now;
             var bars = await _marketstackService.GetStockEodBars(appleSymbol, fromDate, toDate);                
             Assert.NotEmpty(bars);
-            var distinctDates = bars.Select(b => b.Date).Distinct().ToList();  
+            var distinctDates = bars.Select(b => b.Date).Distinct().ToList();
+            var csv = new StringBuilder();
+
             Console.WriteLine($"AAPL Bars count: {bars.Count}, Distinct dates count: {distinctDates.Count}");
 
             Assert.Equal(distinctDates.Count, bars.Count);
             //Assert.True(bars.Count > 100, "Not enough bars");
-            foreach (Marketstack.Entities.Stocks.StockBar mystockBar in bars)
-            {
-                Console.WriteLine($"close: {mystockBar.Close}, open: {mystockBar.Open}");
-            }
+
+
+            //https://learn.microsoft.com/it-it/dotnet/standard/io/how-to-write-text-to-a-file
+            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            // Write the string array to a new file named "WriteLines.txt".
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "AAPL_1y.csv")))
+
+                // https://stackoverflow.com/questions/18757097/writing-data-into-csv-file-in-c-sharp
+                foreach (Marketstack.Entities.Stocks.StockBar mystockBar in bars)
+                {
+                    // attenzione nel file csv i decimali sono con il punto e non con la virgola
+                    //Suggestion made by KyleMit
+
+
+                    // https://www.google.com/search?q=c%23+scrivere+numeri+float+in+file+csv&rlz=1C1UEAD_enIT1160IT1160&oq=c%23+scrivere+numeri+float+in+file+csv&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIGCAEQRRg60gEIOTU4MGowajeoAgCwAgA&sourceid=chrome&ie=UTF-8
+                    var newLine = string.Format("{0},{1},{2},{3},{4}", mystockBar.Close.ToString().Replace(",", "."),
+                                                                       mystockBar.High.ToString().Replace(",", "."), 
+                                                                       mystockBar.Low.ToString().Replace(",", "."), 
+                                                                       mystockBar.Open.ToString().Replace(",", "."), 
+                                                                       mystockBar.Volume.ToString());
+                    outputFile.WriteLine(newLine);
+
+
+
+                    //Console.WriteLine($"close: {mystockBar.Close}, open: {mystockBar.Open}");
+                }
+                   
         }
         [Fact]
         public async Task GetStockEodBars_Parallel_ReturnsBars()
