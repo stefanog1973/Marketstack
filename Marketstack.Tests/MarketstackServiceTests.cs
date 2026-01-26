@@ -60,10 +60,9 @@ namespace Marketstack.Tests
             }
         }
 
-        [Fact]
-        public async Task GetStockEodBars_ReturnsBars(String ticker, int fromYear, int fromMonth, int fromDay)
+        
+        public async Task GetStockEodBars_ReturnsBars(String ticker, int fromYear, int fromMonth, int fromDay, string docPath, string fileName)
         {
-            var appleSymbol = "AAPL";
             var fromDate = new DateTime(fromYear, fromMonth, fromDay);
             var toDate = DateTime.Now;
             var bars = await _marketstackService.GetStockEodBars(ticker, fromDate, toDate);                
@@ -78,10 +77,10 @@ namespace Marketstack.Tests
 
 
             //https://learn.microsoft.com/it-it/dotnet/standard/io/how-to-write-text-to-a-file
-            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            
 
             // Write the string array to a new file named "WriteLines.txt".
-            using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "AAPL_1y.csv")))
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, fileName)))
 
                 // https://stackoverflow.com/questions/18757097/writing-data-into-csv-file-in-c-sharp
                 foreach (Marketstack.Entities.Stocks.StockBar mystockBar in bars)
@@ -104,7 +103,7 @@ namespace Marketstack.Tests
                 }
                    
         }
-        [Fact]
+        
         public async Task GetStockEodBars_Parallel_ReturnsBars()
         {
             // 10 stocks
