@@ -61,12 +61,12 @@ namespace Marketstack.Tests
         }
 
         [Fact]
-        public async Task GetStockEodBars_ReturnsBars()
+        public async Task GetStockEodBars_ReturnsBars(String ticker, int fromYear, int fromMonth, int fromDay)
         {
             var appleSymbol = "AAPL";
-            var fromDate = new DateTime(2026, 1, 22);
+            var fromDate = new DateTime(fromYear, fromMonth, fromDay);
             var toDate = DateTime.Now;
-            var bars = await _marketstackService.GetStockEodBars(appleSymbol, fromDate, toDate);                
+            var bars = await _marketstackService.GetStockEodBars(ticker, fromDate, toDate);                
             Assert.NotEmpty(bars);
             var distinctDates = bars.Select(b => b.Date).Distinct().ToList();
             var csv = new StringBuilder();
