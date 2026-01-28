@@ -63,41 +63,89 @@ class Program
         //var fromYear = 2021;
         //var fromMonth = 1;
         //var fromDay = 1;
-
+        List<string> Symbols = new List<string>();
 
         //String Symbol = "AAPL";
-        String Symbol = "MSFT";
+        // NON FUNZIONA SU TER.MI !!!!!!!! 
+        //Symbols.Append<string>("NYSE:G");
 
         if (args.Length >= 1)
-            Symbol = args[0];
+            Symbols.Append<string>(args[0]);
         int fromYear = DateTime.Now.Year - 1;
-
         int fromMonth = DateTime.Now.Month;
         int fromDay = DateTime.Now.Day;
+
+        string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        string settingsFile = Path.Combine(docPath, "settings.txt");
+        IEnumerable<String> mySettings = File.ReadLines(settingsFile);
+        string myPeriod = "";
+        foreach (string line in mySettings)
+        {
+            if (line.StartsWith("period="))
+            {
+                myPeriod = line.Substring("period=".Length);
+            }
+            if (line.StartsWith("fromYear="))
+            {
+                fromYear = Int32.Parse(line.Substring("fromYear=".Length));
+            }
+            if ((line.StartsWith("fromMonth=")) && (line.Length > "fromMonth=".Length))
+            {
+                fromMonth = Int32.Parse(line.Substring("fromMonth=".Length));
+            }
+            if ((line.StartsWith("fromDay=")) && (line.Length > "fromDay=".Length))
+            {
+                fromDay = Int32.Parse(line.Substring("fromDay=".Length));
+            }
+            if (line.StartsWith("Symbol="))
+            {
+                String miaStringa = line.Substring("Symbol=".Length);
+                int inizio = 0;
+                string jobId = "";
+                int endIndex = 0;
+                while (miaStringa != "")
+                {
+                    endIndex = miaStringa.IndexOf(" ", inizio);
+                    if (endIndex == -1)
+                    { 
+                        Symbols.Add(miaStringa);
+                        break;
+                    }
+                    jobId = miaStringa.Substring(inizio, endIndex);
+                    miaStringa = miaStringa.Replace(jobId, "");
+                    miaStringa = miaStringa.Remove(0, 1);
+                    Symbols.Add(jobId);
+                }
+                if (Symbols.Count() == 0)
+                    Symbols.Add(line.Substring("Symbol=".Length));
+            }
+
+        }
+        if (myPeriod == "10y")
+        {
+            fromYear = DateTime.Now.Year - 10;
+        }
+
         if (args.Length == 4)
-        { 
+        {
             fromYear = Int32.Parse(args[1]);
             fromMonth = Int32.Parse(args[2]);
             fromDay = Int32.Parse(args[3]);
         }
-
-        string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        string fileName = Symbol + "_" + fromYear.ToString() + "_" + fromMonth.ToString() + "_" + fromDay.ToString() +  ".csv";
-        test.GetStockEodBars_ReturnsBars(Symbol, fromYear, fromMonth, fromDay, docPath, fileName).GetAwaiter().GetResult();
-        //test.GetStockEodBars_Parallel_ReturnsBars().GetAwaiter().GetResult();
-
-
-
-
-        Dictionary<int, int> chartList = new Dictionary<int, int>()
-{
-        {50,31}, // x = 50, y = 31
-        {71,87},
-        {25,66},
-        {94,15},
-        {33,94}
-};
-        DrawChart(chartList);
+        foreach (string Symbol in Symbols)
+        {
+            string fileName = Symbol + "_" + fromYear.ToString() + "_" + fromMonth.ToString() + "_" + fromDay.ToString() + ".csv";
+            try
+            {
+                test.GetStockEodBars_ReturnsBars(Symbol, fromYear, fromMonth, fromDay, docPath, fileName).GetAwaiter().GetResult();
+                Console.WriteLine("Getting data for " + Symbol + " from " + fromYear.ToString() + "-" + fromMonth.ToString() + "-" + fromDay.ToString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error : " + ex.Message);
+            }
+            
+        }
     }
 }
 
