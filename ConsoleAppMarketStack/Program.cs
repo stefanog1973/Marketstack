@@ -153,7 +153,7 @@ class Program
             catch (Exception ex)
             {
                 
-                string message = "Error getting data for " + Symbol + " from " + fromYear.ToString() + "-" + fromMonth.ToString() + "-" + fromDay.ToString() + " : " + ex.Message;
+                string message = "Error getting data for " + Symbol + " from " + fromYear.ToString() + "-" + fromMonth.ToString() + "-" + fromDay.ToString() + " : " + ex.Message + "\n";
                 MarketstackServiceTests.sb.Append(message);
                 Console.WriteLine("Error : " + message);
 
@@ -161,7 +161,8 @@ class Program
             }
             
         }
-        File.AppendAllText(docPath + "\\log.txt", MarketstackServiceTests.sb.ToString());
+        String data = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString();
+        File.AppendAllText(docPath + "\\log_" + data + ".txt", MarketstackServiceTests.sb.ToString());
         MarketstackServiceTests.sb.Clear();
     }
 }
