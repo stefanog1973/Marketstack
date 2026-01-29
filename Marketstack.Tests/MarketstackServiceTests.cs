@@ -70,14 +70,18 @@ namespace Marketstack.Tests
             var distinctDates = bars.Select(b => b.Date).Distinct().ToList();
             var csv = new StringBuilder();
 
-            Console.WriteLine($"AAPL Bars count: {bars.Count}, Distinct dates count: {distinctDates.Count}");
+            Console.WriteLine($"Bars count: {bars.Count}, Distinct dates count: {distinctDates.Count}");
 
             Assert.Equal(distinctDates.Count, bars.Count);
             //Assert.True(bars.Count > 100, "Not enough bars");
-
-
+            // verificare che tornino le barre previste
+            int  numerodiBarrePreviste = (toDate - fromDate).Days;
+            if (numerodiBarrePreviste < bars.Count)
+            {
+                Console.WriteLine($"Expected bars: {numerodiBarrePreviste}, Actual bars: {bars.Count}");
+            }
             //https://learn.microsoft.com/it-it/dotnet/standard/io/how-to-write-text-to-a-file
-            
+
 
             // Write the string array to a new file named "WriteLines.txt".
             using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, fileName)))
