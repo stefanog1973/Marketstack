@@ -29,7 +29,7 @@ namespace Marketstack.Tests
 
 
         //private const string apiKeyVariable = "e2edce97a88b0205f422a3885671a40c"; //stefano.grippa@reti.it
-        private const string apiKeyVariable = "5ac48b9ed2e90521967b6ebb0990d0b5"; //e.grippa@ecfop.net
+        public  static string apiKeyVariable = "5ac48b9ed2e90521967b6ebb0990d0b5"; //e.grippa@ecfop.net
         
         public MarketstackServiceTests()
         {
