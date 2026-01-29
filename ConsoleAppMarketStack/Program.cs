@@ -1,10 +1,17 @@
 ﻿using Marketstack.Tests;
+using System.Text;
 
 class Program
     {
 
 
     // https://stackoverflow.com/questions/38496889/console-chart-drawing
+
+    // https://learn.microsoft.com/it-it/dotnet/standard/io/how-to-open-and-append-to-a-log-file
+
+
+
+
     public static void DrawChart(Dictionary<int, int> dict)
     {
         int consoleWidth = 78;
@@ -56,13 +63,16 @@ class Program
         // See https://aka.ms/new-console-template for more information
         //Console.WriteLine("Hello, World!");
 
+
+
+        MarketstackServiceTests.sb = new StringBuilder();
+
+
+
+
+
         var test = new MarketstackServiceTests();
-        //test.GetExchanges_ReturnsExchanges().GetAwaiter().GetResult();
-        //test.GetExchangeStocks_ReturnsStocks().GetAwaiter().GetResult();
-        //var Symbol = "AAPL";
-        //var fromYear = 2021;
-        //var fromMonth = 1;
-        //var fromDay = 1;
+
         List<string> Symbols = new List<string>();
 
         //String Symbol = "AAPL";
@@ -142,10 +152,17 @@ class Program
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error : " + ex.Message);
+                
+                string message = "Error getting data for " + Symbol + " from " + fromYear.ToString() + "-" + fromMonth.ToString() + "-" + fromDay.ToString() + " : " + ex.Message;
+                MarketstackServiceTests.sb.Append(message);
+                Console.WriteLine("Error : " + message);
+
+
             }
             
         }
+        File.AppendAllText(docPath + "\\log.txt", MarketstackServiceTests.sb.ToString());
+        MarketstackServiceTests.sb.Clear();
     }
 }
 

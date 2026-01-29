@@ -4,6 +4,7 @@ using Marketstack.Interfaces;
 using Marketstack.Services;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,9 @@ namespace Marketstack.Tests
 {
     public class MarketstackServiceTests
     {
+
+
+        public static StringBuilder sb; 
         private readonly IMarketstackService _marketstackService;
         //private const string apiKeyVariable = "ASPNETCORE_MarketstackApiToken";
         //private const string apiKeyVariable = "845448f081c0c3e47687637b4f15effc"; //stefanog1973@gmail.com
@@ -78,7 +82,13 @@ namespace Marketstack.Tests
             int  numerodiBarrePreviste = (toDate - fromDate).Days;
             if (numerodiBarrePreviste < bars.Count)
             {
+                string message = $"Error in GetStockEodBars_ReturnsBars for ticker {ticker} from {fromDate.ToString("yyyy-MM-dd")} to {toDate.ToString("yyyy-MM-dd")}\n" +
+                                 $"Expected bars: {numerodiBarrePreviste}, Actual bars: {bars.Count}";
                 Console.WriteLine($"Expected bars: {numerodiBarrePreviste}, Actual bars: {bars.Count}");
+
+
+
+                sb.Append(message);
             }
             //https://learn.microsoft.com/it-it/dotnet/standard/io/how-to-write-text-to-a-file
 
