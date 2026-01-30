@@ -82,7 +82,7 @@ namespace Marketstack.Tests
             //Assert.True(bars.Count > 100, "Not enough bars");
             // verificare che tornino le barre previste
             int  numerodiBarrePreviste = (toDate - fromDate).Days;
-            if (numerodiBarrePreviste < bars.Count)
+            if ( bars.Count < numerodiBarrePreviste)
             {
                 string message = $"Error in GetStockEodBars_ReturnsBars for ticker {ticker} from {fromDate.ToString("yyyy-MM-dd")} to {toDate.ToString("yyyy-MM-dd")}\n" +
                                  $"Expected bars: {numerodiBarrePreviste}, Actual bars: {bars.Count}";
