@@ -29,8 +29,10 @@ namespace Marketstack.Tests
 
 
         //private const string apiKeyVariable = "e2edce97a88b0205f422a3885671a40c"; //stefano.grippa@reti.it
-        public  static string apiKeyVariable = "5ac48b9ed2e90521967b6ebb0990d0b5"; //e.grippa@ecfop.net
-        
+        //public  static string apiKeyVariable = "5ac48b9ed2e90521967b6ebb0990d0b5"; //e.grippa@ecfop.net
+
+        public static string apiKeyVariable = "450df9c497e49c4f9e3da9038c0fb216"; //stefanog090473@gmail.com
+
         public MarketstackServiceTests()
         {
             //var apiKey = Environment.GetEnvironmentVariable(apiKeyVariable, EnvironmentVariableTarget.Machine);
