@@ -84,6 +84,7 @@ class Program
             string message = "Settings file settings.txt not found in folder " + docPath + "\n";
             MarketstackServiceTests.sb.Append(message);
             Console.WriteLine("Error : " + message);
+            File.Create(settingsFile).Close();
         }
 
         // https://stackoverflow.com/questions/6573069/initializing-ienumerablestring-in-c-sharp
