@@ -150,7 +150,25 @@ class Program
         {
             fromYear = DateTime.Now.Year - 10;
         }
-
+        else if (myPeriod == "5y")
+        {
+            fromYear = DateTime.Now.Year - 10;
+        }
+        else if (myPeriod == "1y")
+        {
+            fromYear = DateTime.Now.Year - 1;
+        }
+        else if (myPeriod == "1m")
+        {
+            fromYear = DateTime.Now.Year;
+            if (DateTime.Now.Month == 1)
+            {
+                fromMonth = 12;
+                fromYear = fromYear - 1;
+            }
+            else
+                fromMonth = DateTime.Now.Month - 1;
+        }
 
         if (args.Length == 4)
         {
